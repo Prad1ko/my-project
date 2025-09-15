@@ -25,19 +25,17 @@ let expensesItem = document.getElementsByClassName('expenses-item'),
 
 let money, time;
 
-
-function start() {
-    money = +prompt("Ваш бюджет на месяц?", '');
+btnStart.addEventListener('click', function () {
     time = prompt("Введите дату в формате YYYY-MM-DD", '');
+    money = +prompt("Ваш бюджет на месяц?", '');
 
     while (isNaN(money) || money == "" || money == null) {
         money = +prompt("Ваш бюджет на месяц?", '');
     }
-}
-start();
-
-
-
+    appData.budget = money;
+    appData.timeData = time;
+    budgetValue.textContent = money.toFixed();
+});
 
 
 let appData = {
