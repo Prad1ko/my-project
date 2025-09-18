@@ -35,8 +35,40 @@ btnStart.addEventListener('click', function () {
     appData.budget = money;
     appData.timeData = time;
     budgetValue.textContent = money.toFixed();
+    year.value = new Date(Date.parse(time)).getFullYear();
+    month.value = new Date(Date.parse(time)).getMonth() + 1;
+    day.value = new Date(Date.parse(time)).getDate();
 });
 
+expensesBtn.addEventListener('click', function () {
+    let sum = 0
+    for (let i = 0; i < expensesItem.length; i++) {
+        let a = expensesItem[i].value,
+            b = expensesItem[++i].value;
+
+        if (typeof (a) === 'string' && typeof (a) != null && typeof (b) != null
+            && a != '' && b != '' && a.length < 50) {
+            console.log("Успешно!");
+            appData.expenses[a] = b;
+            sum += +b;
+        } else if (a === null && b === null) {
+            console.log("Вы вышли из программы!");
+            break;
+        } else {
+            console.log("Некорректно!");
+        }
+
+    }
+    expensesValue.textContent = sum;
+});
+
+optionalExpensesBtn.addEventListener('click', function () {
+    for (let i = 0; i < optionalExpensesItem.length; i++) {
+        let questionOptExpenses = optionalExpensesItem[i].value;
+        appData.optionalExpenses[i] = questionOptExpenses;
+        optionalExpensesValue.textContent += appData.optionalExpenses[i] + '';
+    }
+});
 
 let appData = {
     budget: money,
@@ -46,22 +78,7 @@ let appData = {
     income: [],
     savings: true,
     chooseExpenses: function () {
-        for (let i = 0; i < 2; i++) {
-            let a = prompt("Введите обязательную статью расходов в этом месяце", '');
-            let b = prompt("Во сколько обойдется", '');
 
-            if (typeof (a) === 'string' && typeof (a) != null && typeof (b) != null
-                && a != '' && b != '' && a.length < 50) {
-                console.log("Успешно!");
-                appData.expenses[a] = b;
-            } else if (a === null && b === null) {
-                console.log("Вы вышли из программы!");
-                break;
-            } else {
-                console.log("Некорректно!");
-            }
-
-        }
     },
     detectDayBudget: function () {
         appData.moneyPerDay = (appData.budget / 30).toFixed();
@@ -88,11 +105,7 @@ let appData = {
         }
     },
     chooseOptExpenses: function () {
-        for (let i = 1; i <= 3; i++) {
-            let questionOptExpenses = prompt("Статья необязательных расходах", '');
-            appData.optionalExpenses[i] = questionOptExpenses;
-            console.log(appData.optionalExpenses);
-        }
+
     },
     chooseIncome: function () {
         let items = prompt('Что принесет дополнительный доход? (Перечислите через запятую)', '');
@@ -109,9 +122,7 @@ let appData = {
     }
 };
 
-for (let key in appData) {
-    console.log('Наша программа включает в себя данные: ' + key + ' имеет значение ' + '-' + appData[key]);
-}
+
 
 
 
